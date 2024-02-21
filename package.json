@@ -1,0 +1,25 @@
+{
+  "private": true,
+  "author": "N-feng <308561157@qq.com>",
+  "scripts": {
+    "dev": "umi dev",
+    "build": "umi build",
+    "postinstall": "umi setup",
+    "setup": "umi setup",
+    "start": "npm run dev"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.3.0",
+    "@ant-design/pro-components": "^2.6.49",
+    "@ant-design/pro-layout": "^7.17.19",
+    "antd": "^5.14.1",
+    "axios": "^1.6.7",
+    "umi": "^4.1.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.57",
+    "@types/react-dom": "^18.2.19",
+    "@umijs/plugins": "^4.1.1",
+    "typescript": "^5.3.3"
+  }
+}

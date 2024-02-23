@@ -1,16 +1,21 @@
 import { ProLayout } from '@ant-design/pro-layout';
 import { Link, Outlet, useAppData, useLocation } from 'umi';
+import styles from './index.less';
 
 export default function Layout() {
   const { clientRoutes } = useAppData();
-  console.log('clientRoutes: ', clientRoutes);
+  
   const location = useLocation();
+  if (location.pathname === '/login') {
+    return <><Outlet /></>
+  }
+
   return (
     <ProLayout
       route={clientRoutes[0]}
       location={location}
       title="Umi x Ant Design"
-      menuItemRender={(menuItemProps, defaultDom) => {
+      menuItemRender={(menuItemProps: any, defaultDom: any) => {
         if (menuItemProps.isUrl || menuItemProps.children) {
           return defaultDom;
         }

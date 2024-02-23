@@ -1,3 +1,4 @@
+import { login } from '@/services/user/user';
 import {
   AlipayOutlined,
   LockOutlined,
@@ -13,10 +14,11 @@ import {
   ProFormCheckbox,
   ProFormText,
 } from '@ant-design/pro-components';
-import { App, Button, Divider, Space, Tabs, message, theme } from 'antd';
+import { Button, Divider, Space, Tabs, message, theme } from 'antd';
 import type { TabsProps } from 'antd';
 import type { CSSProperties } from 'react';
 import { useState } from 'react';
+import { history } from 'umi';
 
 type LoginType = 'phone' | 'account';
 
@@ -92,13 +94,15 @@ const Page = () => {
           ),
         }}
         onFinish={async (values: any) => {
-          await waitTime(2000);
-          console.log(values);
+          // await waitTime(2000);
+          const { data } = await login(values);
+          localStorage.setItem('token', data.token);
           // message.success('提交成功');
           messageApi.open({
             type: 'success',
             content: '提交成功',
           });
+          history.push('/user');
         }}
         actions={
           <div

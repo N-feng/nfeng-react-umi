@@ -1,79 +1,47 @@
-/**
- * request 网络请求工具
- * 更详细的 api 文档: https://github.com/umijs/umi-request
- */
-import { extend } from 'umi-request';
-import { notification } from 'antd';
- 
-// import { history } from 'umi';
- 
-const codeMessage: any = {
-  200: '服务器成功返回请求的数据。',
-  201: '新建或修改数据成功。',
-  202: '一个请求已经进入后台排队（异步任务）。',
-  204: '删除数据成功。',
-  400: '发出的请求有错误，服务器没有进行新建或修改数据的操作。',
-  401: '用户没有权限（令牌、用户名、密码错误）。',
-  403: '用户得到授权，但是访问是被禁止的。',
-  404: '发出的请求针对的是不存在的记录，服务器没有进行操作。',
-  406: '请求的格式不可得。',
-  410: '请求的资源被永久删除，且不会再得到的。',
-  422: '当创建一个对象时，发生一个验证错误。',
-  500: '服务器发生错误，请检查服务器。',
-  502: '网关错误。',
-  503: '服务不可用，服务器暂时过载或维护。',
-  504: '网关超时。',
+import axios from "axios";
+import type { AxiosInstance, AxiosRequestConfig, InternalAxiosRequestConfig, AxiosResponse } from "axios";
+import errorHandler from './errorHandle'
+
+type Result<T> = {
+  code: number;
+  message: string;
+  result: T;
 };
-/**
- * 异常处理程序
- */
- 
-const errorHandler = (error: { response: any; }) => {
-  const { response } = error;
- 
-  if (response && response.status) {
-    const errorText = codeMessage[response.status] || response.statusText;
-    const { status, url } = response;
-    notification.error({
-      message: `请求错误 ${status}: ${url}`,
-      description: errorText,
-    });
-  } else if (!response) {
-    notification.error({
-      description: '您的网络发生异常，无法连接服务器',
-      message: '网络异常',
-    });
+
+const UMI_APP_API_URL = process.env.UMI_APP_API_URL
+
+const config: AxiosRequestConfig = {
+  baseURL: `${UMI_APP_API_URL}/api`,
+  timeout: 60000
+}
+
+export const request = axios.create(config)
+
+request.interceptors.request.use(
+  (config: InternalAxiosRequestConfig) => {
+    // 一般会请求拦截里面加token，用于后端的验证
+    const token = localStorage.getItem("token") as string
+    if(token) {
+      config.headers!.Authorization = token;
+    }
+
+    return config;
+  },
+  (err: any) => {
+    // 请求错误，这里可以用全局提示框进行提示
+    return Promise.reject(err);
   }
- 
-  return response;
-};
-/**
- * 配置request请求时的默认参数
- */
-const request = extend({
-  errorHandler,
-  // 默认错误处理
-  crossOrigin: true, // 开启CORS跨域
-  // 默认错误处理
-  // credentials: 'include', // 默认请求是否带上cookie
-});
-// 中间件，对请求前添加 userId token 的基础参数
-request.interceptors.request.use((url: any, options: any) => {
-  const newOptions = { ...options };
-  if (!(newOptions.data instanceof FormData)) {
-    newOptions.data = {
-      ...newOptions.data,
-      userId: '00000001',
-      token: 'adsadsafcdscd',
-    };
-  } else {
-    newOptions.data.append('userId', '1');
-    newOptions.data.append('token', 'adsadsafcdscd');
+)
+
+request.interceptors.response.use(
+  (res: AxiosResponse) => {
+    // 直接返回res，当然你也可以只返回res.data
+    // 系统如果有自定义code也可以在这里处理
+    return res.data;
+  },
+  (err: any) => {
+    errorHandler(err);
+    // 这里是AxiosError类型，所以一般我们只reject我们需要的响应即可
+    return Promise.reject(err.response);
   }
-  return {
-    url: `${url}`,
-    options: { ...newOptions },
-  };
-});
- 
-export default request;
+);

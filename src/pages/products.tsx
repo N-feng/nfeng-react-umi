@@ -5,7 +5,7 @@ import { useMutation, useQuery, useQueryClient } from 'umi';
 import styles from './products.less';
 import ProductList from '@/components/ProductList';
 
-export default function Page() {
+const UserPage = () => {
   const queryClient = useQueryClient();
   const productsQuery = useQuery(['products'], {
     queryFn() {
@@ -33,3 +33,5 @@ export default function Page() {
     </div>
   );
 }
+
+export default UserPage

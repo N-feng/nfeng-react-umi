@@ -2,12 +2,6 @@ import axios from "axios";
 import type { AxiosInstance, AxiosRequestConfig, InternalAxiosRequestConfig, AxiosResponse } from "axios";
 import errorHandler from './errorHandle'
 
-type Result<T> = {
-  code: number;
-  message: string;
-  result: T;
-};
-
 const UMI_APP_API_URL = process.env.UMI_APP_API_URL
 
 const config: AxiosRequestConfig = {

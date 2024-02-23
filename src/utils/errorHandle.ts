@@ -25,14 +25,21 @@ interface error {
   response: {
     status: number;
     statusText: string;
-    url: string;
+    data: {
+      code: number;
+      msg: string;
+    }
   };
+  config: {
+    url: string;
+  }
 }
 
 /**
  * 异常处理程序
  */
 const errorHandler = (error: error) => {
+  console.log('error: ', error);
   if (error.name === 'BizError') {
     notification.error({
       message: `请求错误 ${error.data.code}`,
@@ -40,13 +47,17 @@ const errorHandler = (error: error) => {
     });
     return error.data.code;
   }
-  const { response } = error;
-  const errortext = codeMessage[response.status] || response.statusText;
-  const { status, url } = response;
+  // const { response } = error;
+  // const errortext = codeMessage[response.status] || response.statusText;
+  // const { status } = response;
+  const { url } = error.config;
+  const { data } = error.response;
   notification.error({
-    message: `请求错误 ${status}: ${url}`,
-    description: errortext,
+    // message: `请求错误 ${status}: ${url}`,
+    // description: errortext,
+    message: `请求错误 ${data.code}: ${url}`,
+    description: data.msg,
   });
 };
-export default errorHandler;
 
+export default errorHandler;

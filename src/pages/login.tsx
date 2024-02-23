@@ -60,9 +60,9 @@ const Page = () => {
     >
       {contextHolder}
       <LoginFormPage
-        backgroundImageUrl="https://mdn.alipayobjects.com/huamei_gcee1x/afts/img/A*y0ZTS6WLwvgAAAAAAAAAAAAADml6AQ/fmt.webp"
-        logo="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
-        backgroundVideoUrl="https://gw.alipayobjects.com/v/huamei_gcee1x/afts/video/jXRBRK_VAwoAAAAAAAAAAAAAK4eUAQBr"
+        // backgroundImageUrl="https://mdn.alipayobjects.com/huamei_gcee1x/afts/img/A*y0ZTS6WLwvgAAAAAAAAAAAAADml6AQ/fmt.webp"
+        // logo="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
+        // backgroundVideoUrl="https://gw.alipayobjects.com/v/huamei_gcee1x/afts/video/jXRBRK_VAwoAAAAAAAAAAAAAK4eUAQBr"
         title="Github"
         containerStyle={{
           backgroundColor: 'rgba(0, 0, 0,0.65)',
@@ -306,10 +306,13 @@ const Page = () => {
   );
 };
 
-export default () => {
+const LoginPage = () => {
   return (
     <ProConfigProvider dark>
       <Page />
     </ProConfigProvider>
   );
 };
+
+export default LoginPage
+

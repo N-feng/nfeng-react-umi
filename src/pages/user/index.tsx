@@ -13,6 +13,7 @@ import styles from './index.less';
 import useFetch from '@/hook/useFetch';
 import CreateForm from './components/CreateForm';
 import UpdateForm, { FormValueType } from './components/UpdateForm';
+import withAuth from '@/hocs/withAuth';
 
 const queryUserList = (params: any) => 
   new Promise<any>((resolve, reject) => {
@@ -58,7 +59,7 @@ setTimeout(() => {
 reject('error');
 });
 
-export default function Page() {
+const UserPage = () => {
   const { data, isLoading, error, refetch } = useFetch("products", {})
   console.log('isLoading: ', isLoading);
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
@@ -243,3 +244,5 @@ export default function Page() {
     </PageContainer>
   );
 }
+
+export default withAuth(UserPage)

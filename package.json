@@ -2,7 +2,7 @@
   "private": true,
   "author": "N-feng <308561157@qq.com>",
   "scripts": {
-    "dev": "umi dev",
+    "dev": "NODE_OPTIONS=--max_old_space_size=4096 umi dev",
     "build": "umi build",
     "postinstall": "umi setup",
     "setup": "umi setup",
@@ -15,6 +15,7 @@
     "@ant-design/pro-layout": "^7.17.19",
     "antd": "^5.11.2",
     "axios": "^1.6.7",
+    "react-sticky-box": "^2.0.5",
     "umi": "^4.1.1"
   },
   "devDependencies": {

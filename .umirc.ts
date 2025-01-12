@@ -9,7 +9,11 @@ export default defineConfig({
     { path: "/login", component: "login", name: "login" },
     { path: "/", component: "index", name: "home" },
     { path: "/docs", component: "docs", name: "docs" },
-    { path: "/products", component: "products", name: "products" },
+    { path: "/products", component: "products", name: "products",
+      routes: [
+        { path: "/files/:id", component: "files/[id]", name: "files:[id]" },
+      ]
+    },
     { path: "/user", component: "user", name: "user" },
   ],
   proxy: {

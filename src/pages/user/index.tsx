@@ -61,7 +61,8 @@ reject('error');
 
 const UserPage = () => {
   const { data, isLoading, error, refetch } = useFetch("products", {})
-  console.log('isLoading: ', isLoading);
+  console.log('data: ', data);
+  console.log('isLoading:console.log(); ', isLoading);
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
   const [updateModalVisible, handleUpdateModalVisible] =
     useState<boolean>(false);
